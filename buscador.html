@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Buscador privado - Alquileres CR</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .user-info {
+      font-size: 14px;
+      opacity: .9;
+      text-align: right;
+    }
+
+    .logout {
+      margin-left: 12px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.4);
+      background: transparent;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .logout:hover {
+      background: rgba(255,255,255,.1);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      margin-top: 0;
+      color: #6b7280;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+
+    .search-button {
+      padding: 14px 24px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-button:hover {
+      background: #1d4ed8;
+    }
+
+    .search-button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message.info {
+      display: block;
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .results-header {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .results-count {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .result {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .result-id {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      background: #f9fafb;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: bold;
+      color: #6b7280;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .field-value {
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status-pendiente {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-aprobado {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-rechazado {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+      display: none;
+    }
+
+    @media (max-width: 700px) {
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .user-info {
+        text-align: left;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .fields {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+
+    <div class="brand">
+      Alquileres CR — Administración
+    </div>
+
+    <div class="user-info">
+
+      <span id="usuarioNombre">
+        Usuario
+      </span>
+
+      <button
+        class="logout"
+        onclick="cerrarSesion()">
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <main class="container">
+
+    <section class="card">
+
+      <h1>
+        Buscador privado
+      </h1>
+
+      <p class="subtitle">
+        Consulta interna de reportes registrados.
+      </p>
+
+
+      <div class="search-box">
+
+        <input
+          id="termino"
+          class="search-input"
+          type="text"
+          placeholder="Buscar por nombre, ID, documento, zona..."
+          autocomplete="off"
+          onkeydown="manejarEnter(event)"
+        >
+
+        <button
+          id="buscarBtn"
+          class="search-button"
+          onclick="buscar()">
+          Buscar
+        </button>
+
+      </div>
+
+
+      <div
+        id="mensaje"
+        class="message">
+      </div>
+
+
+      <div
+        id="loading"
+        class="loading">
+        Buscando...
+      </div>
+
+
+      <div
+        id="resultados">
+
+        <div
+          id="resultsHeader"
+          class="results-header"
+          style="display:none;">
+
+          <strong>
+            Resultados
+          </strong>
+
+          <span
+            id="resultsCount"
+            class="results-count">
+          </span>
+
+        </div>
+
+
+        <div
+          id="listaResultados">
+        </div>
+
+
+        <div
+          id="empty"
+          class="empty">
+
+          No se encontraron resultados.
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+<script>
+
+  /***************************************************
+   * INICIO
+   ***************************************************/
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    function() {
+
+      const token =
+        sessionStorage.getItem('alquileres_token');
+
+      const usuarioTexto =
+        sessionStorage.getItem('alquileres_usuario');
+
+      if (!token) {
+
+        window.location.href = 'login.html';
+
+        return;
+      }
+
+      if (usuarioTexto) {
+
+        try {
+
+          const usuario =
+            JSON.parse(usuarioTexto);
+
+          document.getElementById(
+            'usuarioNombre'
+          ).textContent =
+            usuario.nombre ||
+            usuario.email ||
+            'Usuario';
+
+        } catch (error) {
+
+          document.getElementById(
+            'usuarioNombre'
+          ).textContent = 'Usuario';
+
+        }
+      }
+
+    }
+  );
+
+
+  /***************************************************
+   * ENTER
+   ***************************************************/
+
+  function manejarEnter(event) {
+
+    if (event.key === 'Enter') {
+      buscar();
+    }
+
+  }
+
+
+  /***************************************************
+   * BUSCAR
+   ***************************************************/
+
+  function buscar() {
+
+    const token =
+      sessionStorage.getItem('alquileres_token');
+
+    if (!token) {
+
+      window.location.href = 'login.html';
+
+      return;
+    }
+
+    const termino =
+      document
+        .getElementById('termino')
+        .value
+        .trim();
+
+
+    if (!termino) {
+
+      mostrarMensaje(
+        'Escribe algo para buscar.',
+        'error'
+      );
+
+      return;
+    }
+
+
+    ocultarMensaje();
+
+    mostrarLoading(true);
+
+    limpiarResultados();
+
+
+    document.getElementById(
+      'buscarBtn'
+    ).disabled = true;
+
+
+    google.script.run
+
+      .withSuccessHandler(
+        function(respuesta) {
+
+          mostrarLoading(false);
+
+          document.getElementById(
+            'buscarBtn'
+          ).disabled = false;
+
+
+          if (!respuesta) {
+
+            mostrarMensaje(
+              'El servidor no devolvió respuesta.',
+              'error'
+            );
+
+            return;
+          }
+
+
+          if (!respuesta.ok) {
+
+            /*
+             * Si la sesión expiró,
+             * volvemos a login.
+             */
+
+            if (
+              respuesta.mensaje &&
+              respuesta.mensaje
+                .toLowerCase()
+                .includes('sesión')
+            ) {
+
+              sessionStorage.removeItem(
+                'alquileres_token'
+              );
+
+              sessionStorage.removeItem(
+                'alquileres_usuario'
+              );
+
+              window.location.href =
+                'login.html';
+
+              return;
+            }
+
+
+            mostrarMensaje(
+              respuesta.mensaje ||
+              'No se pudo realizar la búsqueda.',
+              'error'
+            );
+
+            return;
+          }
+
+
+          mostrarResultados(
+            respuesta.resultados || []
+          );
+
+        }
+      )
+
+      .withFailureHandler(
+        function(error) {
+
+          mostrarLoading(false);
+
+          document.getElementById(
+            'buscarBtn'
+          ).disabled = false;
+
+          mostrarMensaje(
+            'Error de comunicación con el servidor.',
+            'error'
+          );
+
+          console.error(error);
+
+        }
+      )
+
+      .buscarReportesPrivado(
+        token,
+        termino
+      );
+
+  }
+
+
+  /***************************************************
+   * MOSTRAR RESULTADOS
+   ***************************************************/
+
+  function mostrarResultados(resultados) {
+
+    const header =
+      document.getElementById(
+        'resultsHeader'
+      );
+
+    const lista =
+      document.getElementById(
+        'listaResultados'
+      );
+
+    const empty =
+      document.getElementById(
+        'empty'
+      );
+
+    const count =
+      document.getElementById(
+        'resultsCount'
+      );
+
+
+    header.style.display = 'flex';
+
+    count.textContent =
+      resultados.length +
+      (
+        resultados.length === 1
+          ? ' resultado'
+          : ' resultados'
+      );
+
+
+    if (!resultados.length) {
+
+      empty.style.display = 'block';
+
+      return;
+    }
+
+
+    resultados.forEach(
+      function(reporte) {
+
+        const div =
+          document.createElement('div');
+
+        div.className = 'result';
+
+
+        const titulo =
+          document.createElement('div');
+
+        titulo.className =
+          'result-title';
+
+        titulo.textContent =
+          reporte.nombre || 'Sin nombre';
+
+
+        const id =
+          document.createElement('div');
+
+        id.className =
+          'result-id';
+
+        id.textContent =
+          'ID: ' +
+          (reporte.id || 'Sin ID');
+
+
+        const fields =
+          document.createElement('div');
+
+        fields.className = 'fields';
+
+
+        agregarCampo(
+          fields,
+          'Estado',
+          crearEstado(
+            reporte.estado
+          )
+        );
+
+
+        agregarCampo(
+          fields,
+          'Publicar',
+          reporte.publicar || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Documento',
+          reporte.documento || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Tipo de documento',
+          reporte.tipoDocumento || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Apodos',
+          reporte.apodos || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Nacionalidad',
+          reporte.nacionalidad || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Teléfono',
+          reporte.telefono || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Zona',
+          reporte.zona || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Motivo',
+          reporte.motivo || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Detalles',
+          reporte.detalles || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Contacto autorizado',
+          reporte.contactoAutorizado || ''
+        );
+
+
+        agregarCampo(
+          fields,
+          'Fecha de registro',
+          reporte.fecha || ''
+        );
+
+
+        div.appendChild(titulo);
+        div.appendChild(id);
+        div.appendChild(fields);
+
+        lista.appendChild(div);
+
+      }
+    );
+
+  }
+
+
+  /***************************************************
+   * AGREGAR CAMPO
+   ***************************************************/
+
+  function agregarCampo(
+    contenedor,
+    etiqueta,
+    valor
+  ) {
+
+    const campo =
+      document.createElement('div');
+
+    campo.className = 'field';
+
+
+    const label =
+      document.createElement('span');
+
+    label.className =
+      'field-label';
+
+    label.textContent =
+      etiqueta;
+
+
+    const contenido =
+      document.createElement('div');
+
+    contenido.className =
+      'field-value';
+
+
+    if (
+      valor instanceof HTMLElement
+    ) {
+
+      contenido.appendChild(valor);
+
+    } else {
+
+      contenido.textContent =
+        valor || '—';
+
+    }
+
+
+    campo.appendChild(label);
+    campo.appendChild(contenido);
+
+    contenedor.appendChild(campo);
+
+  }
+
+
+  /***************************************************
+   * ESTADO
+   ***************************************************/
+
+  function crearEstado(estado) {
+
+    const span =
+      document.createElement('span');
+
+    span.className = 'status';
+
+
+    const texto =
+      String(
+        estado || 'SIN ESTADO'
+      ).toUpperCase();
+
+
+    span.textContent = texto;
+
+
+    if (texto === 'APROBADO') {
+
+      span.classList.add(
+        'status-aprobado'
+      );
+
+    } else if (
+      texto === 'RECHAZADO'
+    ) {
+
+      span.classList.add(
+        'status-rechazado'
+      );
+
+    } else {
+
+      span.classList.add(
+        'status-pendiente'
+      );
+
+    }
+
+
+    return span;
+
+  }
+
+
+  /***************************************************
+   * LIMPIAR RESULTADOS
+   ***************************************************/
+
+  function limpiarResultados() {
+
+    document.getElementById(
+      'listaResultados'
+    ).innerHTML = '';
+
+    document.getElementById(
+      'resultsHeader'
+    ).style.display = 'none';
+
+    document.getElementById(
+      'empty'
+    ).style.display = 'none';
+
+  }
+
+
+  /***************************************************
+   * LOADING
+   ***************************************************/
+
+  function mostrarLoading(mostrar) {
+
+    document.getElementById(
+      'loading'
+    ).style.display =
+      mostrar
+        ? 'block'
+        : 'none';
+
+  }
+
+
+  /***************************************************
+   * MENSAJES
+   ***************************************************/
+
+  function mostrarMensaje(
+    texto,
+    tipo
+  ) {
+
+    const elemento =
+      document.getElementById(
+        'mensaje'
+      );
+
+    elemento.textContent = texto;
+
+    elemento.className =
+      'message ' +
+      (tipo || 'info');
+
+  }
+
+
+  function ocultarMensaje() {
+
+    const elemento =
+      document.getElementById(
+        'mensaje'
+      );
+
+    elemento.textContent = '';
+
+    elemento.className =
+      'message';
+
+  }
+
+
+  /***************************************************
+   * CERRAR SESIÓN
+   ***************************************************/
+
+  function cerrarSesion() {
+
+    const token =
+      sessionStorage.getItem(
+        'alquileres_token'
+      );
+
+
+    if (token) {
+
+      google.script.run
+        .cerrarSesion(token);
+
+    }
+
+
+    sessionStorage.removeItem(
+      'alquileres_token'
+    );
+
+    sessionStorage.removeItem(
+      'alquileres_usuario'
+    );
+
+
+    window.location.href =
+      'login.html';
+
+  }
+
+</script>
+
+</body>
+</html>
