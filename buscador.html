@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Buscador privado - Alquileres CR</title>
+  <title>Buscador privado — Alquileres CR</title>
 
   <style>
     * {
@@ -13,19 +13,25 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
+      background: #f3f4f6;
       color: #1f2937;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .topbar {
-      background: #111827;
+    header {
+      background: #1f2937;
       color: white;
-      padding: 16px 24px;
+      padding: 16px 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      gap: 15px;
     }
 
     .brand {
@@ -33,222 +39,302 @@
       font-weight: bold;
     }
 
-    .user-info {
-      font-size: 14px;
-      opacity: .9;
-      text-align: right;
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 13px;
     }
 
     .logout {
-      margin-left: 12px;
-      padding: 8px 14px;
-      border: 1px solid rgba(255,255,255,.4);
+      border: 1px solid rgba(255,255,255,.35);
       background: transparent;
       color: white;
-      border-radius: 6px;
+      padding: 8px 13px;
+      border-radius: 7px;
       cursor: pointer;
     }
 
     .logout:hover {
-      background: rgba(255,255,255,.1);
+      background: rgba(255,255,255,.10);
     }
 
-    .container {
-      width: 100%;
-      max-width: 1100px;
-      margin: 35px auto;
+    main {
+      max-width: 1200px;
+      margin: 30px auto;
       padding: 0 20px;
     }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.08);
+    .page-title {
+      margin-bottom: 20px;
     }
 
-    h1 {
-      margin-top: 0;
-      margin-bottom: 8px;
-      font-size: 28px;
+    .page-title h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      color: #111827;
     }
 
-    .subtitle {
-      margin-top: 0;
+    .page-title p {
+      margin: 0;
       color: #6b7280;
+      font-size: 14px;
     }
 
-    .search-box {
+    .search-card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.07);
+      border: 1px solid #e5e7eb;
+      margin-bottom: 25px;
+    }
+
+    .search-row {
       display: flex;
       gap: 10px;
-      margin-top: 25px;
     }
 
     .search-input {
       flex: 1;
-      padding: 14px;
+      height: 48px;
       border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 9px;
+      padding: 0 15px;
+      font-size: 15px;
       outline: none;
     }
 
     .search-input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+      border-color: #374151;
+      box-shadow: 0 0 0 3px rgba(55,65,81,.10);
     }
 
     .search-button {
-      padding: 14px 24px;
+      height: 48px;
+      padding: 0 25px;
       border: 0;
-      border-radius: 8px;
-      background: #2563eb;
+      border-radius: 9px;
+      background: #1f2937;
       color: white;
-      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
     .search-button:hover {
-      background: #1d4ed8;
+      background: #111827;
     }
 
     .search-button:disabled {
-      opacity: .6;
+      background: #9ca3af;
       cursor: not-allowed;
     }
 
     .message {
-      margin-top: 20px;
-      padding: 14px;
-      border-radius: 8px;
       display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
     }
 
     .message.error {
-      display: block;
-      background: #fee2e2;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
       color: #991b1b;
     }
 
     .message.info {
-      display: block;
-      background: #e0f2fe;
-      color: #075985;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
     }
 
     .results-header {
-      margin-top: 30px;
-      display: flex;
+      display: none;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 14px;
     }
 
     .results-count {
-      color: #6b7280;
       font-size: 14px;
+      color: #6b7280;
     }
 
-    .result {
+    .results {
+      display: grid;
+      gap: 15px;
+    }
+
+    .result-card {
+      background: white;
       border: 1px solid #e5e7eb;
-      border-radius: 10px;
+      border-radius: 13px;
       padding: 20px;
-      margin-top: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
 
-    .result-title {
-      font-size: 20px;
+    .result-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .result-name {
+      font-size: 19px;
       font-weight: bold;
+      color: #111827;
       margin-bottom: 5px;
     }
 
     .result-id {
       color: #6b7280;
-      font-size: 13px;
-      margin-bottom: 15px;
+      font-size: 12px;
     }
 
-    .fields {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .field {
-      background: #f9fafb;
-      padding: 10px;
-      border-radius: 6px;
-    }
-
-    .field-label {
-      display: block;
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
       font-size: 11px;
       font-weight: bold;
-      color: #6b7280;
-      text-transform: uppercase;
-      margin-bottom: 4px;
+      white-space: nowrap;
     }
 
-    .field-value {
-      font-size: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 4px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .status-pendiente {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .status-aprobado {
+    .badge.aprobado {
       background: #dcfce7;
       color: #166534;
     }
 
-    .status-rechazado {
-      background: #fee2e2;
-      color: #991b1b;
+    .badge.pendiente {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge.revision {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+
+    .badge.default {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 15px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #9ca3af;
+      margin-bottom: 3px;
+    }
+
+    .field-value {
+      font-size: 14px;
+      color: #374151;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .empty {
-      text-align: center;
+      background: white;
+      border: 1px dashed #d1d5db;
+      border-radius: 12px;
       padding: 40px 20px;
+      text-align: center;
       color: #6b7280;
-      display: none;
+    }
+
+    .empty strong {
+      display: block;
+      color: #374151;
+      margin-bottom: 6px;
     }
 
     .loading {
       text-align: center;
       padding: 30px;
       color: #6b7280;
-      display: none;
     }
 
-    @media (max-width: 700px) {
+    .spinner {
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      border: 2px solid #d1d5db;
+      border-top-color: #374151;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
 
-      .topbar {
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .private-notice {
+      margin-top: 30px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 650px) {
+
+      .header-inner {
         align-items: flex-start;
+      }
+
+      .header-user {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 7px;
+      }
+
+      .search-row {
         flex-direction: column;
       }
 
-      .user-info {
-        text-align: left;
+      .search-button {
+        width: 100%;
       }
 
-      .search-box {
-        flex-direction: column;
-      }
-
-      .fields {
+      .details-grid {
         grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .result-top {
+        flex-direction: column;
       }
     }
   </style>
@@ -256,21 +342,24 @@
 
 <body>
 
-  <div class="topbar">
+<header>
+
+  <div class="header-inner">
 
     <div class="brand">
-      Alquileres CR — Administración
+      Alquileres CR
     </div>
 
-    <div class="user-info">
+    <div class="header-user">
 
       <span id="usuarioNombre">
-        Usuario
+        Usuario autorizado
       </span>
 
       <button
+        id="logoutButton"
         class="logout"
-        onclick="cerrarSesion()">
+        type="button">
         Cerrar sesión
       </button>
 
@@ -278,690 +367,824 @@
 
   </div>
 
-
-  <main class="container">
-
-    <section class="card">
-
-      <h1>
-        Buscador privado
-      </h1>
-
-      <p class="subtitle">
-        Consulta interna de reportes registrados.
-      </p>
+</header>
 
 
-      <div class="search-box">
+<main>
+
+  <div class="page-title">
+
+    <h1>Buscador privado</h1>
+
+    <p>
+      Consulta interna de reportes registrados en el sistema.
+    </p>
+
+  </div>
+
+
+  <section class="search-card">
+
+    <form id="searchForm">
+
+      <div class="search-row">
 
         <input
-          id="termino"
+          id="searchInput"
           class="search-input"
-          type="text"
-          placeholder="Buscar por nombre, ID, documento, zona..."
+          type="search"
+          placeholder="Buscar por nombre, documento, ID, zona o apodo..."
           autocomplete="off"
-          onkeydown="manejarEnter(event)"
+          maxlength="100"
         >
 
         <button
-          id="buscarBtn"
+          id="searchButton"
           class="search-button"
-          onclick="buscar()">
+          type="submit">
           Buscar
         </button>
 
       </div>
 
-
-      <div
-        id="mensaje"
-        class="message">
-      </div>
+    </form>
 
 
-      <div
-        id="loading"
-        class="loading">
-        Buscando...
-      </div>
+    <div
+      id="message"
+      class="message">
+    </div>
+
+  </section>
 
 
-      <div
-        id="resultados">
+  <div
+    id="resultsHeader"
+    class="results-header">
 
-        <div
-          id="resultsHeader"
-          class="results-header"
-          style="display:none;">
+    <strong>Resultados</strong>
 
-          <strong>
-            Resultados
-          </strong>
+    <span
+      id="resultsCount"
+      class="results-count">
+    </span>
 
-          <span
-            id="resultsCount"
-            class="results-count">
-          </span>
-
-        </div>
+  </div>
 
 
-        <div
-          id="listaResultados">
-        </div>
+  <section
+    id="results"
+    class="results">
+
+    <div class="empty">
+
+      <strong>Ingrese un criterio de búsqueda</strong>
+
+      Utilice el campo superior para consultar los registros disponibles.
+
+    </div>
+
+  </section>
 
 
-        <div
-          id="empty"
-          class="empty">
+  <div class="private-notice">
 
-          No se encontraron resultados.
+    🔒 <strong>Área privada.</strong>
+    La información mostrada está destinada únicamente a usuarios
+    autorizados para la revisión interna de reportes.
 
-        </div>
+  </div>
 
-      </div>
-
-    </section>
-
-  </main>
+</main>
 
 
 <script>
 
-  /***************************************************
-   * INICIO
-   ***************************************************/
+  /*
+   * =====================================================
+   * CONFIGURACIÓN
+   * =====================================================
+   */
 
-  document.addEventListener(
-    'DOMContentLoaded',
-    function() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbxYQQgljI9mNduHTRK3yU4J7A9ChS4mpmlQFajfoHD0N1xQqZEF64yVBzw7nQeOSbIXNw/exec";
 
-      const token =
-        sessionStorage.getItem('alquileres_token');
 
-      const usuarioTexto =
-        sessionStorage.getItem('alquileres_usuario');
+  const token =
+    sessionStorage.getItem("alquileresCR_token");
 
-      if (!token) {
 
-        window.location.href = 'login.html';
+  const usuarioGuardado =
+    sessionStorage.getItem("alquileresCR_usuario");
+
+
+  const searchForm =
+    document.getElementById("searchForm");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const searchButton =
+    document.getElementById("searchButton");
+
+  const results =
+    document.getElementById("results");
+
+  const resultsHeader =
+    document.getElementById("resultsHeader");
+
+  const resultsCount =
+    document.getElementById("resultsCount");
+
+  const message =
+    document.getElementById("message");
+
+  const usuarioNombre =
+    document.getElementById("usuarioNombre");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+
+  /*
+   * =====================================================
+   * COMPROBAR SESIÓN
+   * =====================================================
+   */
+
+  async function comprobarSesion() {
+
+    if (!token) {
+
+      window.location.href = "login.html";
+
+      return false;
+    }
+
+
+    try {
+
+      const respuesta = await llamarAPI({
+
+        accion: "validarSesion",
+
+        token: token
+
+      });
+
+
+      if (!respuesta || !respuesta.ok) {
+
+        cerrarSesionLocal();
+
+        return false;
+      }
+
+
+      if (respuesta.usuario) {
+
+        mostrarUsuario(
+          respuesta.usuario
+        );
+
+      } else if (usuarioGuardado) {
+
+        try {
+
+          mostrarUsuario(
+            JSON.parse(usuarioGuardado)
+          );
+
+        } catch (e) {}
+
+      }
+
+
+      return true;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      mostrarMensaje(
+        "No fue posible verificar la sesión.",
+        "error"
+      );
+
+      return false;
+    }
+  }
+
+
+  function mostrarUsuario(usuario) {
+
+    const nombre =
+      usuario.nombre ||
+      usuario.email ||
+      "Usuario autorizado";
+
+    usuarioNombre.textContent = nombre;
+  }
+
+
+  /*
+   * =====================================================
+   * INICIALIZACIÓN
+   * =====================================================
+   */
+
+  window.addEventListener(
+    "DOMContentLoaded",
+    comprobarSesion
+  );
+
+
+  /*
+   * =====================================================
+   * BUSCAR
+   * =====================================================
+   */
+
+  searchForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+      const termino =
+        searchInput.value.trim();
+
+
+      if (!termino) {
+
+        mostrarMensaje(
+          "Ingrese un nombre, documento, ID, zona o apodo para buscar.",
+          "error"
+        );
+
+        searchInput.focus();
 
         return;
       }
 
-      if (usuarioTexto) {
 
-        try {
+      if (termino.length < 2) {
 
-          const usuario =
-            JSON.parse(usuarioTexto);
+        mostrarMensaje(
+          "Ingrese al menos 2 caracteres.",
+          "error"
+        );
 
-          document.getElementById(
-            'usuarioNombre'
-          ).textContent =
-            usuario.nombre ||
-            usuario.email ||
-            'Usuario';
+        return;
+      }
 
-        } catch (error) {
 
-          document.getElementById(
-            'usuarioNombre'
-          ).textContent = 'Usuario';
+      limpiarMensaje();
 
+      searchButton.disabled = true;
+
+      searchButton.innerHTML =
+        '<span class="spinner"></span>Buscando...';
+
+
+      resultsHeader.style.display = "none";
+
+
+      results.innerHTML =
+        '<div class="loading">' +
+          '<span class="spinner"></span>' +
+          'Consultando registros...' +
+        '</div>';
+
+
+      try {
+
+        const respuesta =
+          await llamarAPI({
+
+            accion: "buscarReportes",
+
+            token: token,
+
+            termino: termino
+
+          });
+
+
+        if (!respuesta) {
+
+          throw new Error(
+            "Respuesta vacía del servidor."
+          );
         }
+
+
+        if (!respuesta.ok) {
+
+          if (
+            respuesta.codigo === "SESION_EXPIRADA" ||
+            respuesta.codigo === "NO_AUTORIZADO"
+          ) {
+
+            cerrarSesionLocal();
+
+            return;
+          }
+
+
+          mostrarMensaje(
+            respuesta.mensaje ||
+            "No fue posible realizar la búsqueda.",
+            "error"
+          );
+
+          mostrarSinResultados();
+
+          return;
+        }
+
+
+        mostrarResultados(
+          respuesta.resultados || []
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        mostrarMensaje(
+          "No se pudo conectar con el servidor.",
+          "error"
+        );
+
+        results.innerHTML =
+          '<div class="empty">' +
+            '<strong>Error de conexión</strong>' +
+            'Intente nuevamente.' +
+          '</div>';
+
+      } finally {
+
+        searchButton.disabled = false;
+
+        searchButton.textContent = "Buscar";
       }
 
     }
   );
 
 
-  /***************************************************
-   * ENTER
-   ***************************************************/
-
-  function manejarEnter(event) {
-
-    if (event.key === 'Enter') {
-      buscar();
-    }
-
-  }
-
-
-  /***************************************************
-   * BUSCAR
-   ***************************************************/
-
-  function buscar() {
-
-    const token =
-      sessionStorage.getItem('alquileres_token');
-
-    if (!token) {
-
-      window.location.href = 'login.html';
-
-      return;
-    }
-
-    const termino =
-      document
-        .getElementById('termino')
-        .value
-        .trim();
-
-
-    if (!termino) {
-
-      mostrarMensaje(
-        'Escribe algo para buscar.',
-        'error'
-      );
-
-      return;
-    }
-
-
-    ocultarMensaje();
-
-    mostrarLoading(true);
-
-    limpiarResultados();
-
-
-    document.getElementById(
-      'buscarBtn'
-    ).disabled = true;
-
-
-    google.script.run
-
-      .withSuccessHandler(
-        function(respuesta) {
-
-          mostrarLoading(false);
-
-          document.getElementById(
-            'buscarBtn'
-          ).disabled = false;
-
-
-          if (!respuesta) {
-
-            mostrarMensaje(
-              'El servidor no devolvió respuesta.',
-              'error'
-            );
-
-            return;
-          }
-
-
-          if (!respuesta.ok) {
-
-            /*
-             * Si la sesión expiró,
-             * volvemos a login.
-             */
-
-            if (
-              respuesta.mensaje &&
-              respuesta.mensaje
-                .toLowerCase()
-                .includes('sesión')
-            ) {
-
-              sessionStorage.removeItem(
-                'alquileres_token'
-              );
-
-              sessionStorage.removeItem(
-                'alquileres_usuario'
-              );
-
-              window.location.href =
-                'login.html';
-
-              return;
-            }
-
-
-            mostrarMensaje(
-              respuesta.mensaje ||
-              'No se pudo realizar la búsqueda.',
-              'error'
-            );
-
-            return;
-          }
-
-
-          mostrarResultados(
-            respuesta.resultados || []
-          );
-
-        }
-      )
-
-      .withFailureHandler(
-        function(error) {
-
-          mostrarLoading(false);
-
-          document.getElementById(
-            'buscarBtn'
-          ).disabled = false;
-
-          mostrarMensaje(
-            'Error de comunicación con el servidor.',
-            'error'
-          );
-
-          console.error(error);
-
-        }
-      )
-
-      .buscarReportesPrivado(
-        token,
-        termino
-      );
-
-  }
-
-
-  /***************************************************
+  /*
+   * =====================================================
    * MOSTRAR RESULTADOS
-   ***************************************************/
+   * =====================================================
+   */
 
-  function mostrarResultados(resultados) {
+  function mostrarResultados(lista) {
 
-    const header =
-      document.getElementById(
-        'resultsHeader'
-      );
-
-    const lista =
-      document.getElementById(
-        'listaResultados'
-      );
-
-    const empty =
-      document.getElementById(
-        'empty'
-      );
-
-    const count =
-      document.getElementById(
-        'resultsCount'
-      );
+    results.innerHTML = "";
 
 
-    header.style.display = 'flex';
-
-    count.textContent =
-      resultados.length +
-      (
-        resultados.length === 1
-          ? ' resultado'
-          : ' resultados'
-      );
+    resultsHeader.style.display = "flex";
 
 
-    if (!resultados.length) {
+    resultsCount.textContent =
+      lista.length +
+      (lista.length === 1
+        ? " resultado"
+        : " resultados");
 
-      empty.style.display = 'block';
+
+    if (!lista.length) {
+
+      mostrarSinResultados();
 
       return;
     }
 
 
-    resultados.forEach(
-      function(reporte) {
+    lista.forEach(function(reporte) {
 
-        const div =
-          document.createElement('div');
+      results.appendChild(
+        crearTarjeta(reporte)
+      );
 
-        div.className = 'result';
+    });
 
-
-        const titulo =
-          document.createElement('div');
-
-        titulo.className =
-          'result-title';
-
-        titulo.textContent =
-          reporte.nombre || 'Sin nombre';
+  }
 
 
-        const id =
-          document.createElement('div');
+  function mostrarSinResultados() {
 
-        id.className =
-          'result-id';
+    results.innerHTML =
+      '<div class="empty">' +
+        '<strong>No se encontraron resultados</strong>' +
+        'No existen registros que coincidan con la búsqueda.' +
+      '</div>';
 
-        id.textContent =
-          'ID: ' +
-          (reporte.id || 'Sin ID');
-
-
-        const fields =
-          document.createElement('div');
-
-        fields.className = 'fields';
+  }
 
 
-        agregarCampo(
-          fields,
-          'Estado',
-          crearEstado(
-            reporte.estado
-          )
-        );
+  /*
+   * =====================================================
+   * CREAR TARJETA
+   * =====================================================
+   */
+
+  function crearTarjeta(reporte) {
+
+    const card =
+      document.createElement("article");
+
+    card.className =
+      "result-card";
 
 
-        agregarCampo(
-          fields,
-          'Publicar',
-          reporte.publicar || ''
-        );
+    const top =
+      document.createElement("div");
+
+    top.className =
+      "result-top";
 
 
-        agregarCampo(
-          fields,
-          'Documento',
-          reporte.documento || ''
-        );
+    const titleContainer =
+      document.createElement("div");
 
 
-        agregarCampo(
-          fields,
-          'Tipo de documento',
-          reporte.tipoDocumento || ''
-        );
+    const name =
+      document.createElement("div");
+
+    name.className =
+      "result-name";
+
+    name.textContent =
+      valor(
+        reporte.nombre,
+        "Sin nombre"
+      );
 
 
-        agregarCampo(
-          fields,
-          'Apodos',
-          reporte.apodos || ''
-        );
+    const id =
+      document.createElement("div");
+
+    id.className =
+      "result-id";
+
+    id.textContent =
+      "ID: " +
+      valor(reporte.id, "—");
 
 
-        agregarCampo(
-          fields,
-          'Nacionalidad',
-          reporte.nacionalidad || ''
-        );
+    titleContainer.appendChild(name);
+
+    titleContainer.appendChild(id);
 
 
-        agregarCampo(
-          fields,
-          'Teléfono',
-          reporte.telefono || ''
-        );
+    const badge =
+      document.createElement("span");
+
+    const estado =
+      String(
+        reporte.estado || ""
+      ).toUpperCase();
 
 
-        agregarCampo(
-          fields,
-          'Zona',
-          reporte.zona || ''
-        );
+    badge.className =
+      "badge " +
+      claseEstado(estado);
+
+    badge.textContent =
+      estado || "SIN ESTADO";
 
 
-        agregarCampo(
-          fields,
-          'Motivo',
-          reporte.motivo || ''
-        );
+    top.appendChild(titleContainer);
+
+    top.appendChild(badge);
 
 
-        agregarCampo(
-          fields,
-          'Detalles',
-          reporte.detalles || ''
-        );
+    card.appendChild(top);
 
 
-        agregarCampo(
-          fields,
-          'Contacto autorizado',
-          reporte.contactoAutorizado || ''
-        );
+    const grid =
+      document.createElement("div");
+
+    grid.className =
+      "details-grid";
 
 
-        agregarCampo(
-          fields,
-          'Fecha de registro',
-          reporte.fecha || ''
-        );
-
-
-        div.appendChild(titulo);
-        div.appendChild(id);
-        div.appendChild(fields);
-
-        lista.appendChild(div);
-
-      }
+    agregarCampo(
+      grid,
+      "Documento",
+      combinarDocumento(
+        reporte.documento,
+        reporte.tipoDocumento
+      )
     );
 
+
+    agregarCampo(
+      grid,
+      "Apodos",
+      reporte.apodos
+    );
+
+
+    agregarCampo(
+      grid,
+      "Nacionalidad",
+      reporte.nacionalidad
+    );
+
+
+    agregarCampo(
+      grid,
+      "Teléfono",
+      reporte.telefonoInquilino
+    );
+
+
+    agregarCampo(
+      grid,
+      "Zona",
+      reporte.zona
+    );
+
+
+    agregarCampo(
+      grid,
+      "Fecha del reporte",
+      reporte.fechaRegistro
+    );
+
+
+    agregarCampo(
+      grid,
+      "Motivo",
+      reporte.motivo,
+      true
+    );
+
+
+    agregarCampo(
+      grid,
+      "Detalles",
+      reporte.detalles,
+      true
+    );
+
+
+    agregarCampo(
+      grid,
+      "Observaciones administrativas",
+      reporte.observacionesAdmin,
+      true
+    );
+
+
+    card.appendChild(grid);
+
+
+    return card;
   }
 
-
-  /***************************************************
-   * AGREGAR CAMPO
-   ***************************************************/
 
   function agregarCampo(
     contenedor,
     etiqueta,
-    valor
+    contenido,
+    completo
   ) {
 
-    const campo =
-      document.createElement('div');
+    if (
+      contenido === null ||
+      contenido === undefined ||
+      String(contenido).trim() === ""
+    ) {
+      return;
+    }
 
-    campo.className = 'field';
+
+    const field =
+      document.createElement("div");
+
+    field.className =
+      "field" +
+      (completo ? " full" : "");
 
 
     const label =
-      document.createElement('span');
+      document.createElement("div");
 
     label.className =
-      'field-label';
+      "field-label";
 
     label.textContent =
       etiqueta;
 
 
-    const contenido =
-      document.createElement('div');
+    const value =
+      document.createElement("div");
 
-    contenido.className =
-      'field-value';
+    value.className =
+      "field-value";
 
+    /*
+     * textContent evita insertar HTML recibido
+     * desde Google Sheets.
+     */
+    value.textContent =
+      contenido;
+
+
+    field.appendChild(label);
+
+    field.appendChild(value);
+
+    contenedor.appendChild(field);
+  }
+
+
+  function combinarDocumento(
+    documento,
+    tipo
+  ) {
+
+    if (!documento && !tipo) {
+      return "";
+    }
+
+    if (!tipo) {
+      return documento;
+    }
+
+    if (!documento) {
+      return tipo;
+    }
+
+    return tipo + ": " + documento;
+  }
+
+
+  function claseEstado(estado) {
+
+    if (estado === "APROBADO") {
+      return "aprobado";
+    }
+
+    if (estado === "PENDIENTE") {
+      return "pendiente";
+    }
 
     if (
-      valor instanceof HTMLElement
+      estado === "EN REVISION" ||
+      estado === "EN REVISIÓN"
     ) {
-
-      contenido.appendChild(valor);
-
-    } else {
-
-      contenido.textContent =
-        valor || '—';
-
+      return "revision";
     }
 
-
-    campo.appendChild(label);
-    campo.appendChild(contenido);
-
-    contenedor.appendChild(campo);
-
+    return "default";
   }
 
 
-  /***************************************************
-   * ESTADO
-   ***************************************************/
+  function valor(valorActual, reemplazo) {
 
-  function crearEstado(estado) {
-
-    const span =
-      document.createElement('span');
-
-    span.className = 'status';
-
-
-    const texto =
-      String(
-        estado || 'SIN ESTADO'
-      ).toUpperCase();
-
-
-    span.textContent = texto;
-
-
-    if (texto === 'APROBADO') {
-
-      span.classList.add(
-        'status-aprobado'
-      );
-
-    } else if (
-      texto === 'RECHAZADO'
+    if (
+      valorActual === null ||
+      valorActual === undefined ||
+      String(valorActual).trim() === ""
     ) {
-
-      span.classList.add(
-        'status-rechazado'
-      );
-
-    } else {
-
-      span.classList.add(
-        'status-pendiente'
-      );
-
+      return reemplazo;
     }
 
-
-    return span;
-
+    return String(valorActual);
   }
 
 
-  /***************************************************
-   * LIMPIAR RESULTADOS
-   ***************************************************/
-
-  function limpiarResultados() {
-
-    document.getElementById(
-      'listaResultados'
-    ).innerHTML = '';
-
-    document.getElementById(
-      'resultsHeader'
-    ).style.display = 'none';
-
-    document.getElementById(
-      'empty'
-    ).style.display = 'none';
-
-  }
-
-
-  /***************************************************
-   * LOADING
-   ***************************************************/
-
-  function mostrarLoading(mostrar) {
-
-    document.getElementById(
-      'loading'
-    ).style.display =
-      mostrar
-        ? 'block'
-        : 'none';
-
-  }
-
-
-  /***************************************************
+  /*
+   * =====================================================
    * MENSAJES
-   ***************************************************/
+   * =====================================================
+   */
 
   function mostrarMensaje(
     texto,
     tipo
   ) {
 
-    const elemento =
-      document.getElementById(
-        'mensaje'
-      );
+    message.textContent =
+      texto;
 
-    elemento.textContent = texto;
+    message.className =
+      "message " +
+      (tipo || "info");
 
-    elemento.className =
-      'message ' +
-      (tipo || 'info');
-
+    message.style.display =
+      "block";
   }
 
 
-  function ocultarMensaje() {
+  function limpiarMensaje() {
 
-    const elemento =
-      document.getElementById(
-        'mensaje'
-      );
+    message.style.display =
+      "none";
 
-    elemento.textContent = '';
-
-    elemento.className =
-      'message';
-
+    message.textContent =
+      "";
   }
 
 
-  /***************************************************
+  /*
+   * =====================================================
    * CERRAR SESIÓN
-   ***************************************************/
+   * =====================================================
+   */
 
-  function cerrarSesion() {
+  logoutButton.addEventListener(
+    "click",
+    async function() {
 
-    const token =
-      sessionStorage.getItem(
-        'alquileres_token'
+      try {
+
+        if (token) {
+
+          await llamarAPI({
+
+            accion: "cerrarSesion",
+
+            token: token
+
+          });
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "No se pudo notificar el cierre de sesión."
+        );
+
+      } finally {
+
+        cerrarSesionLocal();
+
+      }
+
+    }
+  );
+
+
+  function cerrarSesionLocal() {
+
+    sessionStorage.removeItem(
+      "alquileresCR_token"
+    );
+
+    sessionStorage.removeItem(
+      "alquileresCR_usuario"
+    );
+
+    window.location.href =
+      "login.html";
+  }
+
+
+  /*
+   * =====================================================
+   * API
+   * =====================================================
+   */
+
+  async function llamarAPI(datos) {
+
+    const respuesta =
+      await fetch(
+        API_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify(datos)
+        }
       );
 
 
-    if (token) {
+    if (!respuesta.ok) {
 
-      google.script.run
-        .cerrarSesion(token);
-
+      throw new Error(
+        "HTTP " +
+        respuesta.status
+      );
     }
 
 
-    sessionStorage.removeItem(
-      'alquileres_token'
-    );
-
-    sessionStorage.removeItem(
-      'alquileres_usuario'
-    );
-
-
-    window.location.href =
-      'login.html';
-
+    return await respuesta.json();
   }
 
 </script>
