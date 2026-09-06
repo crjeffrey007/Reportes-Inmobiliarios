@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Acceso | Reportes Inmobiliarios</title>
+
+  <style>
+    :root {
+      --fondo: #f4f7fb;
+      --tarjeta: #ffffff;
+      --texto: #172033;
+      --texto-suave: #667085;
+      --borde: #d9dee8;
+      --principal: #1f5eff;
+      --principal-hover: #1747c7;
+      --error: #b42318;
+      --fondo-error: #fef3f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef3ff,
+          #f8fafc
+        );
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: var(--texto);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .tarjeta {
+      background: var(--tarjeta);
+
+      border: 1px solid var(--borde);
+
+      border-radius: 18px;
+
+      padding: 32px;
+
+      box-shadow:
+        0 18px 50px
+        rgba(16, 24, 40, 0.10);
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+
+      border-radius: 15px;
+
+      background: var(--principal);
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 24px;
+      font-weight: 800;
+
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .subtitulo {
+      margin: 0 0 28px;
+
+      color: var(--texto-suave);
+
+      font-size: 15px;
+
+      line-height: 1.5;
+    }
+
+    .grupo {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 13px 14px;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius: 10px;
+
+      background: #ffffff;
+
+      color: var(--texto);
+
+      font-size: 16px;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--principal);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(31, 94, 255, 0.12);
+    }
+
+    .boton {
+      width: 100%;
+
+      margin-top: 6px;
+
+      padding: 14px 16px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      background: var(--principal);
+
+      color: #ffffff;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s,
+        opacity 0.2s;
+    }
+
+    .boton:hover {
+      background: var(--principal-hover);
+    }
+
+    .boton:disabled {
+      opacity: 0.6;
+
+      cursor: not-allowed;
+    }
+
+    .mensaje {
+      display: none;
+
+      margin-top: 16px;
+
+      padding: 12px 14px;
+
+      border-radius: 10px;
+
+      background: var(--fondo-error);
+
+      border:
+        1px solid #fecdca;
+
+      color: var(--error);
+
+      font-size: 14px;
+
+      line-height: 1.4;
+    }
+
+    .mensaje.visible {
+      display: block;
+    }
+
+    .pie {
+      margin-top: 22px;
+
+      color: var(--texto-suave);
+
+      font-size: 12px;
+
+      line-height: 1.5;
+
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+
+      body {
+        padding: 16px;
+      }
+
+      .tarjeta {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="contenedor">
+
+    <section class="tarjeta">
+
+      <div class="logo">
+        AC
+      </div>
+
+      <h1>
+        Acceso al buscador
+      </h1>
+
+      <p class="subtitulo">
+        Alquileres CR · Área privada
+      </p>
+
+
+      <form id="formularioLogin">
+
+        <div class="grupo">
+
+          <label for="usuario">
+            Usuario
+          </label>
+
+          <input
+            id="usuario"
+            name="usuario"
+            type="text"
+            autocomplete="username"
+            placeholder="Ingrese su usuario"
+            required
+          >
+
+        </div>
+
+
+        <div class="grupo">
+
+          <label for="contrasena">
+            Contraseña
+          </label>
+
+          <input
+            id="contrasena"
+            name="contrasena"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Ingrese su contraseña"
+            required
+          >
+
+        </div>
+
+
+        <button
+          id="botonLogin"
+          class="boton"
+          type="submit"
+        >
+          Ingresar
+        </button>
+
+
+        <div
+          id="mensaje"
+          class="mensaje"
+        ></div>
+
+      </form>
+
+
+      <div class="pie">
+        Acceso restringido a usuarios autorizados.
+        <br>
+        No comparta sus credenciales.
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /*
+     * =====================================================
+     * LOGIN
+     * =====================================================
+     *
+     * IMPORTANTE:
+     *
+     * NO colocar usuarios ni contraseñas aquí.
+     *
+     * La validación real debe hacerse en el servidor
+     * (Google Apps Script).
+     *
+     * Este archivo solamente muestra la interfaz.
+     * =====================================================
+     */
+
+
+    const formulario =
+      document.getElementById(
+        'formularioLogin'
+      );
+
+
+    const boton =
+      document.getElementById(
+        'botonLogin'
+      );
+
+
+    const mensaje =
+      document.getElementById(
+        'mensaje'
+      );
+
+
+    formulario.addEventListener(
+      'submit',
+      async function(evento) {
+
+        evento.preventDefault();
+
+
+        mensaje.className = 'mensaje';
+
+        mensaje.textContent = '';
+
+
+        const usuario =
+          document
+            .getElementById('usuario')
+            .value
+            .trim();
+
+
+        const contrasena =
+          document
+            .getElementById('contrasena')
+            .value;
+
+
+        if (!usuario || !contrasena) {
+
+          mostrarError(
+            'Ingrese el usuario y la contraseña.'
+          );
+
+          return;
+        }
+
+
+        boton.disabled = true;
+
+        boton.textContent =
+          'Verificando...';
+
+
+        try {
+
+          const respuesta =
+            await iniciarSesion(
+              usuario,
+              contrasena
+            );
+
+
+          if (
+            !respuesta ||
+            !respuesta.ok
+          ) {
+
+            throw new Error(
+              respuesta &&
+              respuesta.mensaje
+                ? respuesta.mensaje
+                : 'Usuario o contraseña incorrectos.'
+            );
+          }
+
+
+          /*
+           * Guardamos solamente el token
+           * de sesión devuelto por el servidor.
+           *
+           * NUNCA guardamos la contraseña.
+           */
+
+          sessionStorage.setItem(
+            'alquileresCR_sesion',
+            JSON.stringify({
+
+              token:
+                respuesta.token,
+
+              usuario:
+                respuesta.usuario,
+
+              expira:
+                respuesta.expira
+
+            })
+          );
+
+
+          /*
+           * Ir al buscador.
+           */
+
+          window.location.href =
+            'buscador.html';
+
+
+        } catch (error) {
+
+          mostrarError(
+            error.message ||
+            'No fue posible iniciar sesión.'
+          );
+
+        } finally {
+
+          boton.disabled = false;
+
+          boton.textContent =
+            'Ingresar';
+        }
+
+      }
+    );
+
+
+    function mostrarError(texto) {
+
+      mensaje.textContent =
+        texto;
+
+      mensaje.className =
+        'mensaje visible';
+    }
+
+
+    /*
+     * =====================================================
+     * CONEXIÓN CON EL BACKEND
+     * =====================================================
+     *
+     * ESTA PARTE TODAVÍA DEBE CONECTARSE
+     * CON TU GOOGLE APPS SCRIPT.
+     *
+     * No vamos a poner la contraseña aquí.
+     *
+     * El servidor será quien compruebe:
+     *
+     * usuario
+     * contraseña
+     * usuario activo
+     * permisos
+     *
+     * y devolverá un token temporal.
+     * =====================================================
+     */
+
+
+    async function iniciarSesion(
+      usuario,
+      contrasena
+    ) {
+
+      /*
+       * Aquí posteriormente colocaremos
+       * la comunicación con Apps Script.
+       */
+
+      throw new Error(
+        'El sistema de autenticación todavía no está conectado.'
+      );
+    }
+
+  </script>
+
+</body>
+</html>
