@@ -1,428 +1,127 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso privado — Reportes de Inquilinos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acceso - Reporte de Inquilinos</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #f4f7fb, #e8eef7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1f2937;
-      padding: 20px;
-    }
+body{
+    margin:0;
+    background:#f2f4f8;
+    font-family:Arial;
+}
 
-    .login-container {
-      width: 100%;
-      max-width: 430px;
-    }
+.caja{
+    width:350px;
+    background:white;
+    padding:30px;
+    margin:80px auto;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
 
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 38px 32px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
-      border: 1px solid #e5e7eb;
-    }
+h2{
+    text-align:center;
+}
 
-    .logo {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 18px;
-      border-radius: 16px;
-      background: #1f2937;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 27px;
-      font-weight: bold;
-    }
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
 
-    h1 {
-      text-align: center;
-      margin: 0;
-      font-size: 25px;
-      color: #111827;
-    }
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#1a73e8;
+    color:white;
+    margin-top:15px;
+    cursor:pointer;
+}
 
-    .subtitle {
-      text-align: center;
-      margin: 9px 0 30px;
-      color: #6b7280;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+button:hover{
+    background:#125cc3;
+}
 
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 7px;
-      color: #374151;
-    }
+.error{
+    color:red;
+    text-align:center;
+    margin-top:10px;
+}
 
-    input {
-      width: 100%;
-      height: 48px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 0 14px;
-      font-size: 15px;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-      margin-bottom: 19px;
-    }
-
-    input:focus {
-      border-color: #374151;
-      box-shadow: 0 0 0 3px rgba(55, 65, 81, .10);
-    }
-
-    button {
-      width: 100%;
-      height: 49px;
-      border: 0;
-      border-radius: 10px;
-      background: #1f2937;
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background .2s, transform .1s;
-    }
-
-    button:hover {
-      background: #111827;
-    }
-
-    button:active {
-      transform: scale(.99);
-    }
-
-    button:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
-
-    .error {
-      display: none;
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      border-radius: 9px;
-      padding: 12px;
-      margin-bottom: 18px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    .success {
-      display: none;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      border-radius: 9px;
-      padding: 12px;
-      margin-bottom: 18px;
-      font-size: 14px;
-    }
-
-    .security {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #e5e7eb;
-      text-align: center;
-      color: #6b7280;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 18px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      border: 2px solid rgba(255,255,255,.4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      vertical-align: middle;
-      margin-right: 7px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-<div class="login-container">
+<div class="caja">
 
-  <div class="card">
+    <h2>Acceso privado</h2>
 
-    <div class="logo">CR</div>
+    <input id="email" placeholder="Correo">
 
-    <h1>Alquileres CR</h1>
+    <input id="password" type="password" placeholder="Contraseña">
 
-    <div class="subtitle">
-      Sistema privado de administración y consulta de reportes
-    </div>
+    <button onclick="login()">
+        Entrar
+    </button>
 
-    <div id="error" class="error"></div>
-    <div id="success" class="success"></div>
-
-    <form id="loginForm">
-
-      <label for="email">Correo electrónico</label>
-
-      <input
-        type="email"
-        id="email"
-        autocomplete="username"
-        placeholder="Correo autorizado"
-        required
-      >
-
-      <label for="password">Contraseña</label>
-
-      <input
-        type="password"
-        id="password"
-        autocomplete="current-password"
-        placeholder="Contraseña"
-        required
-      >
-
-      <button id="loginButton" type="submit">
-        Iniciar sesión
-      </button>
-
-    </form>
-
-    <div class="security">
-      🔒 Área privada.<br>
-      El acceso está limitado a usuarios autorizados.
-    </div>
-
-  </div>
-
-  <div class="footer">
-    Alquileres CR · Sistema privado
-  </div>
+    <div class="error" id="mensaje"></div>
 
 </div>
 
-
 <script>
-  /*
-   * =====================================================
-   * CONFIGURACIÓN
-   * =====================================================
-   *
-   * Coloca aquí la URL /exec de tu Google Apps Script.
-   *
-   * NO coloques contraseñas ni hashes aquí.
-   */
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbxYQQgljI9mNduHTRK3yU4J7A9ChS4mpmlQFajfoHD0N1xQqZEF64yVBzw7nQeOSbIXNw/exec";
+const API_URL =
+"https://script.google.com/macros/s/TU_ID/exec";
 
+async function login(){
 
-  const form = document.getElementById("loginForm");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const loginButton = document.getElementById("loginButton");
+    let email =
+        document.getElementById("email").value;
 
-  const errorBox = document.getElementById("error");
-  const successBox = document.getElementById("success");
+    let password =
+        document.getElementById("password").value;
 
+    const respuesta =
+        await fetch(API_URL,{
+            method:"POST",
+            body:JSON.stringify({
+                accion:"login",
+                email:email,
+                password:password
+            })
+        });
 
-  function mostrarError(mensaje) {
-    errorBox.textContent = mensaje;
-    errorBox.style.display = "block";
-    successBox.style.display = "none";
-  }
+    const data = await respuesta.json();
 
+    if(data.ok){
 
-  function mostrarExito(mensaje) {
-    successBox.textContent = mensaje;
-    successBox.style.display = "block";
-    errorBox.style.display = "none";
-  }
-
-
-  function limpiarMensajes() {
-    errorBox.style.display = "none";
-    successBox.style.display = "none";
-  }
-
-
-  /*
-   * Si ya existe una sesión válida, intenta entrar
-   * directamente al buscador.
-   */
-  window.addEventListener("DOMContentLoaded", async () => {
-
-    const token = sessionStorage.getItem("alquileresCR_token");
-
-    if (!token) return;
-
-    try {
-
-      const respuesta = await llamarAPI({
-        accion: "validarSesion",
-        token: token
-      });
-
-      if (respuesta && respuesta.ok) {
-        window.location.href = "buscador.html";
-      } else {
-        sessionStorage.removeItem("alquileresCR_token");
-      }
-
-    } catch (error) {
-      console.warn("No se pudo validar la sesión existente.");
-    }
-  });
-
-
-  form.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    limpiarMensajes();
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    if (!email || !password) {
-      mostrarError("Debe ingresar el correo y la contraseña.");
-      return;
-    }
-
-    loginButton.disabled = true;
-
-    loginButton.innerHTML =
-      '<span class="spinner"></span>Verificando...';
-
-    try {
-
-      const respuesta = await llamarAPI({
-        accion: "iniciarSesion",
-        email: email,
-        password: password
-      });
-
-      if (!respuesta || !respuesta.ok) {
-
-        mostrarError(
-          respuesta && respuesta.mensaje
-            ? respuesta.mensaje
-            : "No fue posible iniciar sesión."
+        localStorage.setItem(
+            "token",
+            data.token
         );
 
-        passwordInput.value = "";
-        passwordInput.focus();
+        localStorage.setItem(
+            "usuario",
+            JSON.stringify(data.usuario)
+        );
 
-        return;
-      }
-
-
-      /*
-       * Guardamos únicamente el token.
-       * La contraseña nunca se guarda.
-       */
-      sessionStorage.setItem(
-        "alquileresCR_token",
-        respuesta.token
-      );
-
-
-      sessionStorage.setItem(
-        "alquileresCR_usuario",
-        JSON.stringify(
-          respuesta.usuario || {}
-        )
-      );
-
-
-      mostrarExito("Acceso autorizado. Entrando al sistema...");
-
-
-      setTimeout(() => {
-        window.location.href = "buscador.html";
-      }, 500);
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      mostrarError(
-        "No se pudo conectar con el servidor. Intente nuevamente."
-      );
-
-    } finally {
-
-      loginButton.disabled = false;
-
-      loginButton.textContent = "Iniciar sesión";
+        window.location =
+            "buscador.html";
     }
-
-  });
-
-
-  /*
-   * =====================================================
-   * LLAMADA A GOOGLE APPS SCRIPT
-   * =====================================================
-   */
-
-  async function llamarAPI(datos) {
-
-    const respuesta = await fetch(API_URL, {
-
-      method: "POST",
-
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-
-      body: JSON.stringify(datos)
-
-    });
-
-
-    if (!respuesta.ok) {
-      throw new Error(
-        "HTTP " + respuesta.status
-      );
+    else{
+        document.getElementById("mensaje")
+            .innerText = data.mensaje;
     }
-
-
-    return await respuesta.json();
-  }
+}
 
 </script>
 
