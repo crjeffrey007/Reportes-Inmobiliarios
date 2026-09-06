@@ -3,22 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Acceso | Reportes Inmobiliarios</title>
+  <title>Acceso privado — Reportes de Inquilinos</title>
 
   <style>
-    :root {
-      --fondo: #f4f7fb;
-      --tarjeta: #ffffff;
-      --texto: #172033;
-      --texto-suave: #667085;
-      --borde: #d9dee8;
-      --principal: #1f5eff;
-      --principal-hover: #1747c7;
-      --error: #b42318;
-      --fondo-error: #fef3f2;
-    }
-
     * {
       box-sizing: border-box;
     }
@@ -26,214 +13,163 @@
     body {
       margin: 0;
       min-height: 100vh;
-
-      background:
-        linear-gradient(
-          135deg,
-          #eef3ff,
-          #f8fafc
-        );
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      color: var(--texto);
-
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #f4f7fb, #e8eef7);
       display: flex;
       align-items: center;
       justify-content: center;
-
-      padding: 24px;
+      color: #1f2937;
+      padding: 20px;
     }
 
-    .contenedor {
+    .login-container {
       width: 100%;
       max-width: 430px;
     }
 
-    .tarjeta {
-      background: var(--tarjeta);
-
-      border: 1px solid var(--borde);
-
+    .card {
+      background: #ffffff;
       border-radius: 18px;
-
-      padding: 32px;
-
-      box-shadow:
-        0 18px 50px
-        rgba(16, 24, 40, 0.10);
+      padding: 38px 32px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+      border: 1px solid #e5e7eb;
     }
 
     .logo {
-      width: 58px;
-      height: 58px;
-
-      border-radius: 15px;
-
-      background: var(--principal);
-
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      border-radius: 16px;
+      background: #1f2937;
       color: white;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
-      font-size: 24px;
-      font-weight: 800;
-
-      margin-bottom: 22px;
+      font-size: 27px;
+      font-weight: bold;
     }
 
     h1 {
-      margin: 0 0 8px;
-
-      font-size: 26px;
-      line-height: 1.2;
+      text-align: center;
+      margin: 0;
+      font-size: 25px;
+      color: #111827;
     }
 
-    .subtitulo {
-      margin: 0 0 28px;
-
-      color: var(--texto-suave);
-
-      font-size: 15px;
-
+    .subtitle {
+      text-align: center;
+      margin: 9px 0 30px;
+      color: #6b7280;
+      font-size: 14px;
       line-height: 1.5;
-    }
-
-    .grupo {
-      margin-bottom: 18px;
     }
 
     label {
       display: block;
-
-      margin-bottom: 7px;
-
       font-size: 14px;
-
-      font-weight: 700;
+      font-weight: bold;
+      margin-bottom: 7px;
+      color: #374151;
     }
 
     input {
       width: 100%;
-
-      padding: 13px 14px;
-
-      border:
-        1px solid var(--borde);
-
+      height: 48px;
+      border: 1px solid #d1d5db;
       border-radius: 10px;
-
-      background: #ffffff;
-
-      color: var(--texto);
-
-      font-size: 16px;
-
+      padding: 0 14px;
+      font-size: 15px;
       outline: none;
-
-      transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+      transition: border-color .2s, box-shadow .2s;
+      margin-bottom: 19px;
     }
 
     input:focus {
-      border-color: var(--principal);
-
-      box-shadow:
-        0 0 0 3px
-        rgba(31, 94, 255, 0.12);
+      border-color: #374151;
+      box-shadow: 0 0 0 3px rgba(55, 65, 81, .10);
     }
 
-    .boton {
+    button {
       width: 100%;
-
-      margin-top: 6px;
-
-      padding: 14px 16px;
-
+      height: 49px;
       border: 0;
-
       border-radius: 10px;
-
-      background: var(--principal);
-
-      color: #ffffff;
-
-      font-size: 16px;
-
-      font-weight: 700;
-
+      background: #1f2937;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
       cursor: pointer;
-
-      transition:
-        background 0.2s,
-        opacity 0.2s;
+      transition: background .2s, transform .1s;
     }
 
-    .boton:hover {
-      background: var(--principal-hover);
+    button:hover {
+      background: #111827;
     }
 
-    .boton:disabled {
-      opacity: 0.6;
+    button:active {
+      transform: scale(.99);
+    }
 
+    button:disabled {
+      background: #9ca3af;
       cursor: not-allowed;
     }
 
-    .mensaje {
+    .error {
       display: none;
-
-      margin-top: 16px;
-
-      padding: 12px 14px;
-
-      border-radius: 10px;
-
-      background: var(--fondo-error);
-
-      border:
-        1px solid #fecdca;
-
-      color: var(--error);
-
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      border-radius: 9px;
+      padding: 12px;
+      margin-bottom: 18px;
       font-size: 14px;
-
       line-height: 1.4;
     }
 
-    .mensaje.visible {
-      display: block;
+    .success {
+      display: none;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      border-radius: 9px;
+      padding: 12px;
+      margin-bottom: 18px;
+      font-size: 14px;
     }
 
-    .pie {
-      margin-top: 22px;
-
-      color: var(--texto-suave);
-
-      font-size: 12px;
-
-      line-height: 1.5;
-
+    .security {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
       text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
-    @media (max-width: 480px) {
+    .footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
 
-      body {
-        padding: 16px;
-      }
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 7px;
+    }
 
-      .tarjeta {
-        padding: 25px 20px;
-      }
-
-      h1 {
-        font-size: 23px;
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
     }
   </style>
@@ -241,289 +177,254 @@
 
 <body>
 
-  <main class="contenedor">
+<div class="login-container">
 
-    <section class="tarjeta">
+  <div class="card">
 
-      <div class="logo">
-        AC
-      </div>
+    <div class="logo">CR</div>
 
-      <h1>
-        Acceso al buscador
-      </h1>
+    <h1>Alquileres CR</h1>
 
-      <p class="subtitulo">
-        Alquileres CR · Área privada
-      </p>
+    <div class="subtitle">
+      Sistema privado de administración y consulta de reportes
+    </div>
 
+    <div id="error" class="error"></div>
+    <div id="success" class="success"></div>
 
-      <form id="formularioLogin">
+    <form id="loginForm">
 
-        <div class="grupo">
+      <label for="email">Correo electrónico</label>
 
-          <label for="usuario">
-            Usuario
-          </label>
+      <input
+        type="email"
+        id="email"
+        autocomplete="username"
+        placeholder="Correo autorizado"
+        required
+      >
 
-          <input
-            id="usuario"
-            name="usuario"
-            type="text"
-            autocomplete="username"
-            placeholder="Ingrese su usuario"
-            required
-          >
+      <label for="password">Contraseña</label>
 
-        </div>
+      <input
+        type="password"
+        id="password"
+        autocomplete="current-password"
+        placeholder="Contraseña"
+        required
+      >
 
+      <button id="loginButton" type="submit">
+        Iniciar sesión
+      </button>
 
-        <div class="grupo">
+    </form>
 
-          <label for="contrasena">
-            Contraseña
-          </label>
+    <div class="security">
+      🔒 Área privada.<br>
+      El acceso está limitado a usuarios autorizados.
+    </div>
 
-          <input
-            id="contrasena"
-            name="contrasena"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Ingrese su contraseña"
-            required
-          >
+  </div>
 
-        </div>
+  <div class="footer">
+    Alquileres CR · Sistema privado
+  </div>
 
+</div>
 
-        <button
-          id="botonLogin"
-          class="boton"
-          type="submit"
-        >
-          Ingresar
-        </button>
 
+<script>
+  /*
+   * =====================================================
+   * CONFIGURACIÓN
+   * =====================================================
+   *
+   * Coloca aquí la URL /exec de tu Google Apps Script.
+   *
+   * NO coloques contraseñas ni hashes aquí.
+   */
 
-        <div
-          id="mensaje"
-          class="mensaje"
-        ></div>
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbxYQQgljI9mNduHTRK3yU4J7A9ChS4mpmlQFajfoHD0N1xQqZEF64yVBzw7nQeOSbIXNw/exec";
 
-      </form>
 
+  const form = document.getElementById("loginForm");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const loginButton = document.getElementById("loginButton");
 
-      <div class="pie">
-        Acceso restringido a usuarios autorizados.
-        <br>
-        No comparta sus credenciales.
-      </div>
+  const errorBox = document.getElementById("error");
+  const successBox = document.getElementById("success");
 
-    </section>
 
-  </main>
+  function mostrarError(mensaje) {
+    errorBox.textContent = mensaje;
+    errorBox.style.display = "block";
+    successBox.style.display = "none";
+  }
 
 
-  <script>
+  function mostrarExito(mensaje) {
+    successBox.textContent = mensaje;
+    successBox.style.display = "block";
+    errorBox.style.display = "none";
+  }
 
-    /*
-     * =====================================================
-     * LOGIN
-     * =====================================================
-     *
-     * IMPORTANTE:
-     *
-     * NO colocar usuarios ni contraseñas aquí.
-     *
-     * La validación real debe hacerse en el servidor
-     * (Google Apps Script).
-     *
-     * Este archivo solamente muestra la interfaz.
-     * =====================================================
-     */
 
+  function limpiarMensajes() {
+    errorBox.style.display = "none";
+    successBox.style.display = "none";
+  }
 
-    const formulario =
-      document.getElementById(
-        'formularioLogin'
-      );
 
+  /*
+   * Si ya existe una sesión válida, intenta entrar
+   * directamente al buscador.
+   */
+  window.addEventListener("DOMContentLoaded", async () => {
 
-    const boton =
-      document.getElementById(
-        'botonLogin'
-      );
+    const token = sessionStorage.getItem("alquileresCR_token");
 
+    if (!token) return;
 
-    const mensaje =
-      document.getElementById(
-        'mensaje'
-      );
+    try {
 
+      const respuesta = await llamarAPI({
+        accion: "validarSesion",
+        token: token
+      });
 
-    formulario.addEventListener(
-      'submit',
-      async function(evento) {
-
-        evento.preventDefault();
-
-
-        mensaje.className = 'mensaje';
-
-        mensaje.textContent = '';
-
-
-        const usuario =
-          document
-            .getElementById('usuario')
-            .value
-            .trim();
-
-
-        const contrasena =
-          document
-            .getElementById('contrasena')
-            .value;
-
-
-        if (!usuario || !contrasena) {
-
-          mostrarError(
-            'Ingrese el usuario y la contraseña.'
-          );
-
-          return;
-        }
-
-
-        boton.disabled = true;
-
-        boton.textContent =
-          'Verificando...';
-
-
-        try {
-
-          const respuesta =
-            await iniciarSesion(
-              usuario,
-              contrasena
-            );
-
-
-          if (
-            !respuesta ||
-            !respuesta.ok
-          ) {
-
-            throw new Error(
-              respuesta &&
-              respuesta.mensaje
-                ? respuesta.mensaje
-                : 'Usuario o contraseña incorrectos.'
-            );
-          }
-
-
-          /*
-           * Guardamos solamente el token
-           * de sesión devuelto por el servidor.
-           *
-           * NUNCA guardamos la contraseña.
-           */
-
-          sessionStorage.setItem(
-            'alquileresCR_sesion',
-            JSON.stringify({
-
-              token:
-                respuesta.token,
-
-              usuario:
-                respuesta.usuario,
-
-              expira:
-                respuesta.expira
-
-            })
-          );
-
-
-          /*
-           * Ir al buscador.
-           */
-
-          window.location.href =
-            'buscador.html';
-
-
-        } catch (error) {
-
-          mostrarError(
-            error.message ||
-            'No fue posible iniciar sesión.'
-          );
-
-        } finally {
-
-          boton.disabled = false;
-
-          boton.textContent =
-            'Ingresar';
-        }
-
+      if (respuesta && respuesta.ok) {
+        window.location.href = "buscador.html";
+      } else {
+        sessionStorage.removeItem("alquileresCR_token");
       }
-    );
+
+    } catch (error) {
+      console.warn("No se pudo validar la sesión existente.");
+    }
+  });
 
 
-    function mostrarError(texto) {
+  form.addEventListener("submit", async function(event) {
 
-      mensaje.textContent =
-        texto;
+    event.preventDefault();
 
-      mensaje.className =
-        'mensaje visible';
+    limpiarMensajes();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+      mostrarError("Debe ingresar el correo y la contraseña.");
+      return;
     }
 
+    loginButton.disabled = true;
 
-    /*
-     * =====================================================
-     * CONEXIÓN CON EL BACKEND
-     * =====================================================
-     *
-     * ESTA PARTE TODAVÍA DEBE CONECTARSE
-     * CON TU GOOGLE APPS SCRIPT.
-     *
-     * No vamos a poner la contraseña aquí.
-     *
-     * El servidor será quien compruebe:
-     *
-     * usuario
-     * contraseña
-     * usuario activo
-     * permisos
-     *
-     * y devolverá un token temporal.
-     * =====================================================
-     */
+    loginButton.innerHTML =
+      '<span class="spinner"></span>Verificando...';
 
+    try {
 
-    async function iniciarSesion(
-      usuario,
-      contrasena
-    ) {
+      const respuesta = await llamarAPI({
+        accion: "iniciarSesion",
+        email: email,
+        password: password
+      });
+
+      if (!respuesta || !respuesta.ok) {
+
+        mostrarError(
+          respuesta && respuesta.mensaje
+            ? respuesta.mensaje
+            : "No fue posible iniciar sesión."
+        );
+
+        passwordInput.value = "";
+        passwordInput.focus();
+
+        return;
+      }
+
 
       /*
-       * Aquí posteriormente colocaremos
-       * la comunicación con Apps Script.
+       * Guardamos únicamente el token.
+       * La contraseña nunca se guarda.
        */
+      sessionStorage.setItem(
+        "alquileresCR_token",
+        respuesta.token
+      );
 
+
+      sessionStorage.setItem(
+        "alquileresCR_usuario",
+        JSON.stringify(
+          respuesta.usuario || {}
+        )
+      );
+
+
+      mostrarExito("Acceso autorizado. Entrando al sistema...");
+
+
+      setTimeout(() => {
+        window.location.href = "buscador.html";
+      }, 500);
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      mostrarError(
+        "No se pudo conectar con el servidor. Intente nuevamente."
+      );
+
+    } finally {
+
+      loginButton.disabled = false;
+
+      loginButton.textContent = "Iniciar sesión";
+    }
+
+  });
+
+
+  /*
+   * =====================================================
+   * LLAMADA A GOOGLE APPS SCRIPT
+   * =====================================================
+   */
+
+  async function llamarAPI(datos) {
+
+    const respuesta = await fetch(API_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+
+      body: JSON.stringify(datos)
+
+    });
+
+
+    if (!respuesta.ok) {
       throw new Error(
-        'El sistema de autenticación todavía no está conectado.'
+        "HTTP " + respuesta.status
       );
     }
 
-  </script>
+
+    return await respuesta.json();
+  }
+
+</script>
 
 </body>
 </html>
